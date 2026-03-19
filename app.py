@@ -26,13 +26,13 @@ credit_score = st.number_input("Credit Score", min_value=0.0)
 dti = st.number_input("DTI Ratio", min_value=0.0)
 savings = st.number_input("Savings", value=0.0)
 
+education = st.selectbox("Education Level", ["Graduate", "Postgraduate", "Undergraduate"])
 employment = st.selectbox("Employment Status", ["Salaried", "Self-Employed", "Business"])
 marital = st.selectbox("Marital Status", ["Single", "Married"])
 loan_purpose = st.selectbox("Loan Purpose", ["Home", "Education", "Personal"])
 property_area = st.selectbox("Property Area", ["Urban", "Semi-Urban", "Rural"])
 gender = st.selectbox("Gender", ["Male", "Female"])
 employer_category = st.selectbox("Employer Category", ["Private", "Government"])
-education = st.selectbox("Education Level", ["Graduate", "Postgraduate", "Undergraduate"])
 
 # ---------------- PREDICTION ---------------- #
 
@@ -56,6 +56,14 @@ if st.button("Predict Loan Status"):
             "Employer_Category":[employer_category]
         })
 
+        # 🔥 Convert Education manually (IMPORTANT FIX)
+        education_map = {
+            "Graduate": 0,
+            "Postgraduate": 1,
+            "Undergraduate": 2
+        }
+        input_df["Education_Level"] = input_df["Education_Level"].map(education_map)
+
         # Handle missing values
         input_df = input_df.fillna(0)
 
@@ -63,8 +71,8 @@ if st.button("Predict Loan Status"):
         input_df["DTI_Ratio_sq"] = input_df["DTI_Ratio"] ** 2
         input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
 
-        # Encode categorical variables
-        cat_cols = ["Education_Level","Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
+        # Encode categorical variables (EXCLUDE Education_Level)
+        cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
 
         encoded = encoder.transform(input_df[cat_cols])
 
@@ -85,7 +93,7 @@ if st.button("Predict Loan Status"):
         # Match training columns
         input_df = input_df.reindex(columns=columns, fill_value=0)
 
-        # Ensure numeric type
+        # Ensure numeric
         input_df = input_df.astype(float)
 
         # Scale data
