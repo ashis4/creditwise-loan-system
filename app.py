@@ -64,7 +64,7 @@ if st.button("Predict Loan Status"):
         input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
 
         # Encode categorical variables
-        cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
+        cat_cols = ["Education_Level","Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
 
         encoded = encoder.transform(input_df[cat_cols])
 
