@@ -179,3 +179,5 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
 def load_html(file_name):
     with open(file_name, encoding="utf-8") as f:
         return f.read()
+
+st.markdown(load_html("footer.html"), unsafe_allow_html=True)
