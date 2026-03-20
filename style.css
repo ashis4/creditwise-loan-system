@@ -1,16 +1,20 @@
-/* ---------- REMOVE TOP SPACE ---------- */
+/* ---------- REMOVE ALL TOP SPACE ---------- */
 .main .block-container {
     padding-top: 0rem !important;
-    padding-left: 2rem;
-    padding-right: 2rem;
     margin-top: 0rem !important;
 }
 
-/* Remove Streamlit header */
+/* Kill Streamlit header completely */
 header {
     height: 0px !important;
     margin: 0 !important;
     padding: 0 !important;
+}
+
+/* Push header fully to top */
+.header {
+    margin-top: -40px;   /* increase if still gap */
+    padding: 10px 20px;  /* reduced internal padding */
 }
 
 /* ---------- HEADER ---------- */
@@ -19,20 +23,20 @@ header {
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(90deg, #1f77b4, #4CAF50);
-    padding: 10px 20px;
+    padding: 15px 25px;
     border-radius: 10px;
     color: white;
-    margin-top: -40px;
+    margin-top: -25px;
 }
 
 .header h1 {
     margin: 0;
-    font-size: 26px;
+    font-size: 35px;
 }
 
 .header p {
     margin: 0;
-    font-size: 13px;
+    font-size: 20px;
 }
 
 .header a {
@@ -41,11 +45,17 @@ header {
     font-weight: bold;
 }
 
-.header a:hover {
-    text-decoration: underline;
+/* ---------- FOOTER ---------- */
+.footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 10px;
+    color: gray;
+    border-top: 1px solid #ddd;
+    font-size: 14px;
 }
 
-/* ---------- INPUT ---------- */
+/* ---------- INPUT FIELDS ---------- */
 input {
     border-radius: 8px !important;
     padding: 8px !important;
@@ -61,40 +71,7 @@ input {
     width: 100%;
 }
 
-.stButton > button:hover {
-    background-color: #155a8a;
-}
-
-/* ---------- FOOTER ---------- */
-.footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 15px;
-    font-size: 14px;
-    color: gray;
-}
-
-/* GitHub link */
-.github-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 10px;
-    text-decoration: none;
-    color: black;
-    font-weight: 500;
-}
-
-.github-link img {
-    vertical-align: middle;
-}
-
-/* Hover */
-.github-link:hover {
-    color: #1f77b4;
-}
-
-/* ---------- HIDE STREAMLIT ---------- */
+/* ---------- HIDE STREAMLIT DEFAULT UI ---------- */
 [data-testid="stToolbar"] {
     display: none;
 }
