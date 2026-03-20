@@ -197,7 +197,7 @@ st.markdown("""
     justify-content:space-between;
     flex-wrap:wrap;
     gap:15px;
-    font-size:18px;
+    font-size:15px;
     margin-bottom:10px;
 ">
 
