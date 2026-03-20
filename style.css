@@ -6,7 +6,7 @@
     margin-top: 0rem !important;
 }
 
-/* Remove Streamlit header completely */
+/* Remove Streamlit header */
 header {
     height: 0px !important;
     margin: 0 !important;
@@ -45,7 +45,7 @@ header {
     text-decoration: underline;
 }
 
-/* ---------- INPUT FIELDS ---------- */
+/* ---------- INPUT ---------- */
 input {
     border-radius: 8px !important;
     padding: 8px !important;
@@ -79,7 +79,7 @@ input {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    margin-top: 8px;
+    margin-top: 10px;
     text-decoration: none;
     color: black;
     font-weight: 500;
@@ -89,12 +89,12 @@ input {
     vertical-align: middle;
 }
 
-/* Hover effect */
+/* Hover */
 .github-link:hover {
     color: #1f77b4;
 }
 
-/* ---------- HIDE STREAMLIT DEFAULT UI ---------- */
+/* ---------- HIDE STREAMLIT ---------- */
 [data-testid="stToolbar"] {
     display: none;
 }
