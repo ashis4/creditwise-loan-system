@@ -1,0 +1,58 @@
+/* ---------- GENERAL ---------- */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* ---------- HEADER ---------- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #1f77b4, #4CAF50);
+    padding: 15px 25px;
+    border-radius: 10px;
+    color: white;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.header p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.header a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 10px;
+    color: gray;
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* ---------- HIDE STREAMLIT UI ---------- */
+[data-testid="stToolbar"] {
+    display: none;
+}
+
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+header {
+    visibility: hidden;
+}
