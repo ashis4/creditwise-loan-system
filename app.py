@@ -224,7 +224,10 @@ st.markdown("""
     <a href="https://github.com/ashis4" target="_blank"
        style="color:#60a5fa; text-decoration:none; font-size:13px;">
         <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" width="20" height="20" style="vertical-align:middle;">
-        View on GitHub
+    </a>
+    <a href="https://github.com/ashis4" target="_blank"
+       style="color:#60a5fa; text-decoration:none; font-size:13px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" width="20" height="20" style="vertical-align:middle;">
     </a>
 </div>
 
