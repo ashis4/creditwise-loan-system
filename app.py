@@ -13,13 +13,15 @@ def load_css(file_name):
 
 load_css("style.css")
 
-# ---------- LOAD HEADER ----------
+# ---------- LOAD HTML ----------
 def load_html(file_name):
     with open(file_name, encoding="utf-8") as f:
         return f.read()
 
+# ---------- HEADER ----------
 st.markdown(load_html("header.html"), unsafe_allow_html=True)
 
+# spacing after header
 st.markdown("<div style='margin-top:15px'></div>", unsafe_allow_html=True)
 
 # ---------- SAFE FLOAT ----------
@@ -83,7 +85,7 @@ except Exception as e:
 # ---------- PREDICTION ----------
 if st.button("🔍 Predict Loan Status", use_container_width=True):
 
-    # Validation
+    # ---------- VALIDATION ----------
     if (
         income == 0 or
         loan_amount == 0 or
@@ -94,13 +96,19 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
 
     else:
         try:
+            # EMI
             emi = loan_amount / loan_term if loan_term != 0 else 0
+
+            # Total Income
             total_income = income + co_income
+
+            # DTI
             dti = emi / total_income if total_income != 0 else 0
 
             st.info(f"📊 Monthly EMI: {round(emi, 2)}")
             st.info(f"📊 DTI Ratio: {round(dti, 3)}")
 
+            # Dataframe
             input_df = pd.DataFrame({
                 "Applicant_Income":[income],
                 "Coapplicant_Income":[co_income],
@@ -123,11 +131,11 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
 
             input_df = input_df.fillna(0)
 
-            # Feature Engineering
+            # Feature engineering
             input_df["DTI_Ratio_sq"] = input_df["DTI_Ratio"] ** 2
             input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
 
-            # Encoding
+            # Encoding categorical
             cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
 
             encoded = encoder.transform(input_df[cat_cols])
@@ -145,13 +153,14 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
             input_df = input_df.reindex(columns=columns, fill_value=0)
             input_df = input_df.astype(float)
 
-            # Scaling
+            # Scale
             input_scaled = scaler.transform(input_df)
 
-            # Prediction
+            # Predict
             prediction = model.predict(input_scaled)
             probability = model.predict_proba(input_scaled)
 
+            # Result
             if prediction[0] == 1:
                 st.success(f"✅ Loan Approved (Confidence: {round(probability[0][1]*100,2)}%)")
             else:
@@ -176,65 +185,6 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
         except Exception as e:
             st.error(f"⚠️ Error: {e}")
 
-# ---------- COMPACT PREMIUM FOOTER ----------
+# ---------- FOOTER ----------
 st.markdown("---")
-
-st.markdown("""
-<div style="
-    background: linear-gradient(90deg, #1f2937, #111827);
-    color: white;
-    padding: 15px 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-    font-family: 'Segoe UI', sans-serif;
-">
-
-<div style="text-align:center; margin-bottom:10px;">
-    <h2 style="margin:0; font-size:26px;">💼 CreditWise</h2>
-    <p style="margin:4px 0 0; font-size:14px; color:#d1d5db;">
-        AI-Powered Loan Approval & Advisory System
-    </p>
-</div>
-
-<div style="
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:15px;
-    font-size:13px;
-">
-
-<div>
-    <h4 style="margin-bottom:4px;">Developer</h4>
-    <p style="margin:0; color:#9ca3af;">
-        Ashish Gaikar<br>
-        Built using ML & Jupyter Lab
-    </p>
-</div>
-
-<div>
-    <h4 style="margin-bottom:4px;">Dataset</h4>
-    <p style="margin:0; color:#9ca3af;">
-        Standardized Loan Data<br>
-        (Synthesized)
-    </p>
-</div>
-
-<div>
-    <h4 style="margin-bottom:4px;">Connect</h4>
-    <a href="https://github.com/ashis4" target="_blank"
-       style="color:#60a5fa; text-decoration:none;">
-        🔗 GitHub
-    </a>
-</div>
-
-</div>
-
-<hr style="border:0.5px solid #374151; margin:12px 0;">
-
-<div style="text-align:center; font-size:12px; color:#6b7280;">
-    © 2026 CreditWise. All rights reserved.
-</div>
-
-</div>
-""", unsafe_allow_html=True)
+st.markdown(load_html("footer.html"), unsafe_allow_html=True)
