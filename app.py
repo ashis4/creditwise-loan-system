@@ -231,20 +231,9 @@ st.markdown("""
 <hr style="border:0.5px solid #374151; margin:4px 0;">
 
 <div style="text-align:center; margin:4px 0;">
-
-    <a href="https://github.com/ashis4" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png"
-             width="22" height="22"
-             style="margin:0 8px; vertical-align:middle;">
+    <a href="https://github.com/ashis4" target="_blank"
+       style="color:#60a5fa; text-decoration:none; font-size:13px;">
+        <img src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/github.png" width="20" height="20" style="vertical-align:middle;">
+        View on GitHub
     </a>
-
-    <a href="https://www.linkedin.com/in/YOUR-LINKEDIN-ID" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
-             width="22" height="22"
-             style="margin:0 8px; vertical-align:middle;">
-    </a>
-
 </div>
-
-</div>
-""", unsafe_allow_html=True)
