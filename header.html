@@ -1,91 +1,27 @@
-<div style="
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background: linear-gradient(90deg, #1f2937, #111827);
-    padding: 12px 25px;
+<div class="header" style="
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 1rem 2rem; 
+    background-color: #f8f9fa; 
+    border-bottom: 2px solid #e9ecef; 
     border-radius: 10px;
-    font-family: 'Segoe UI', sans-serif;
+    margin-bottom: 20px;
 ">
-
-    <!-- LEFT: Title + Toggle -->
-    <div style="display:flex; align-items:center; gap:12px; color:white;">
-        <h2 style="margin:0; font-size:22px;">💼 CreditWise</h2>
-
-        <!-- Toggle Switch -->
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
+    <div>
+        <h1 style="margin: 0; color: #1f2937; font-family: 'Segoe UI', sans-serif;">🏦 CreditWise</h1>
+        <p style="margin: 0; color: #6b7280; font-size: 0.9rem;">AI-Powered Loan Approval & Advisory System</p>
     </div>
-
-    <!-- RIGHT: Navigation -->
-    <div style="display:flex; gap:25px; align-items:center;">
-
-        <a href="#" style="
-            color:#d1d5db;
-            text-decoration:none;
-            font-size:15px;
-        ">Home</a>
-
-        <a href="#" style="
-            color:#d1d5db;
-            text-decoration:none;
-            font-size:15px;
+    <div>
+        <a href="/About_Us" target="_self" style="
+            text-decoration: none; 
+            color: #2563eb; 
+            font-weight: 600; 
+            font-family: 'Segoe UI', sans-serif;
+            padding: 8px 16px;
+            border: 1px solid #2563eb;
+            border-radius: 5px;
+            transition: 0.3s;
         ">About Us</a>
-
-        <a href="#" style="
-            color:#d1d5db;
-            text-decoration:none;
-            font-size:15px;
-        ">Contact</a>
-
     </div>
-
 </div>
-
-<!-- TOGGLE CSS -->
-<style>
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 40px;
-  height: 20px;
-}
-
-.switch input {
-  display: none;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  background-color: #6b7280;
-  border-radius: 20px;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transition: 0.4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  border-radius: 50%;
-  transition: 0.4s;
-}
-
-input:checked + .slider {
-  background-color: #60a5fa;
-}
-
-input:checked + .slider:before {
-  transform: translateX(20px);
-}
-</style>
