@@ -205,7 +205,7 @@ st.markdown("""
     <b>Developer Credits :</b><br>
     <span style="color:#d1d5db;">
         Developed by Ashish Gaikar<br>
-        Built using Machine Learning with dataset<br>
+        Built using Machine Learning with <br> dataset
         analysis in Jupyter Lab
     </span>
 </div>
@@ -213,8 +213,8 @@ st.markdown("""
 <div style="margin-right: 18%; color:white">
     <b>Dataset Source :</b><br>
     <span style="color:#d1d5db;">
-        Standardized<br>
-        Loan Data (Synthesized)
+        Standardized
+        Loan <br> Data (Synthesized)
     </span>
 </div>
 
