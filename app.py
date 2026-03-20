@@ -3,35 +3,69 @@ import pickle
 import pandas as pd
 import numpy as np
 
+# ---------- PAGE CONFIG ----------
 st.set_page_config(page_title="CreditWise", layout="centered")
-st.title("🏦 CreditWise Loan Approval System")
 
-st.markdown("### Enter Applicant Details")
+# ---------- LOAD CSS ----------
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+load_css("style.css")
+
+# ---------- LOAD HTML ----------
+def load_html(file_name):
+    with open(file_name) as f:
+        return f.read()
+
+# ---------- HEADER ----------
+st.markdown(load_html("header.html"), unsafe_allow_html=True)
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+# ---------- SAFE FLOAT CONVERSION ----------
 def to_float(value):
     try:
         return float(value)
     except:
         return 0
 
-# Inputs (clean)
-income = st.text_input("Applicant Income (Monthly)")
-co_income = st.text_input("Coapplicant Income")
-loan_amount = st.text_input("Loan Amount")
-loan_term = st.text_input("Loan Term (months)")
+# ---------- INPUT UI ----------
+st.subheader("👤 Applicant Details")
 
-credit_score = st.text_input("Credit Score")
-savings = st.text_input("Savings")
+col1, col2 = st.columns(2)
 
-education = st.selectbox("Education Level", ["Graduate", "Postgraduate", "Undergraduate"])
-employment = st.selectbox("Employment Status", ["Salaried", "Self-Employed", "Business"])
-marital = st.selectbox("Marital Status", ["Single", "Married"])
-loan_purpose = st.selectbox("Loan Purpose", ["Home", "Education", "Personal"])
-property_area = st.selectbox("Property Area", ["Urban", "Semi-Urban", "Rural"])
+with col1:
+    income = st.text_input("Applicant Income (Monthly)")
+    credit_score = st.text_input("Credit Score")
+    education = st.selectbox("Education Level", ["Graduate", "Postgraduate", "Undergraduate"])
+
+with col2:
+    co_income = st.text_input("Coapplicant Income")
+    savings = st.text_input("Savings")
+    employment = st.selectbox("Employment Status", ["Salaried", "Self-Employed", "Business"])
+
+st.markdown("---")
+
+st.subheader("🏦 Loan Details")
+
+col3, col4 = st.columns(2)
+
+with col3:
+    loan_amount = st.text_input("Loan Amount")
+    loan_term = st.text_input("Loan Term (months)")
+    loan_purpose = st.selectbox("Loan Purpose", ["Home", "Education", "Personal"])
+
+with col4:
+    marital = st.selectbox("Marital Status", ["Single", "Married"])
+    property_area = st.selectbox("Property Area", ["Urban", "Semi-Urban", "Rural"])
+    employer_category = st.selectbox("Employer Category", ["Private", "Government"])
+
+st.markdown("---")
+
 gender = st.selectbox("Gender", ["Male", "Female"])
-employer_category = st.selectbox("Employer Category", ["Private", "Government"])
 
-# Convert
+# ---------- CONVERT INPUTS ----------
 income = to_float(income)
 co_income = to_float(co_income)
 loan_amount = to_float(loan_amount)
@@ -39,7 +73,7 @@ loan_term = to_float(loan_term)
 credit_score = to_float(credit_score)
 savings = to_float(savings)
 
-# Load model
+# ---------- LOAD MODEL ----------
 try:
     model = pickle.load(open('model.pkl', 'rb'))
     scaler = pickle.load(open('scaler.pkl', 'rb'))
@@ -48,17 +82,23 @@ try:
 except Exception as e:
     st.error(f"Error loading model files: {e}")
 
-# Predict
-if st.button("🔍 Predict Loan Status"):
+# ---------- PREDICTION ----------
+if st.button("🔍 Predict Loan Status", use_container_width=True):
 
     try:
+        # EMI
         emi = loan_amount / loan_term if loan_term != 0 else 0
+
+        # Income
         total_income = income + co_income
+
+        # DTI
         dti = emi / total_income if total_income != 0 else 0
 
         st.info(f"📊 Monthly EMI: {round(emi, 2)}")
         st.info(f"📊 DTI Ratio: {round(dti, 3)}")
 
+        # Dataframe
         input_df = pd.DataFrame({
             "Applicant_Income":[income],
             "Coapplicant_Income":[co_income],
@@ -75,14 +115,17 @@ if st.button("🔍 Predict Loan Status"):
             "Employer_Category":[employer_category]
         })
 
+        # Encode Education manually
         education_map = {"Graduate":0,"Postgraduate":1,"Undergraduate":2}
         input_df["Education_Level"] = input_df["Education_Level"].map(education_map)
 
         input_df = input_df.fillna(0)
 
+        # Feature engineering
         input_df["DTI_Ratio_sq"] = input_df["DTI_Ratio"] ** 2
         input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
 
+        # Encoding
         cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
 
         encoded = encoder.transform(input_df[cat_cols])
@@ -91,17 +134,23 @@ if st.button("🔍 Predict Loan Status"):
         except:
             pass
 
-        encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(cat_cols))
+        encoded_df = pd.DataFrame(
+            encoded,
+            columns=encoder.get_feature_names_out(cat_cols)
+        )
 
         input_df = pd.concat([input_df.drop(columns=cat_cols), encoded_df], axis=1)
         input_df = input_df.reindex(columns=columns, fill_value=0)
         input_df = input_df.astype(float)
 
+        # Scale
         input_scaled = scaler.transform(input_df)
 
+        # Predict
         prediction = model.predict(input_scaled)
         probability = model.predict_proba(input_scaled)
 
+        # Result
         if prediction[0] == 1:
             st.success(f"✅ Loan Approved (Confidence: {round(probability[0][1]*100,2)}%)")
         else:
@@ -125,3 +174,7 @@ if st.button("🔍 Predict Loan Status"):
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
+# ---------- FOOTER ----------
+st.markdown("---")
+st.markdown(load_html("footer.html"), unsafe_allow_html=True)
