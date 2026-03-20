@@ -4,28 +4,27 @@ import pandas as pd
 import numpy as np
 
 # Title
+st.set_page_config(page_title="CreditWise", layout="centered")
 st.title("🏦 CreditWise Loan Approval System")
 
-# Load model files
-try:
-    model = pickle.load(open('model.pkl', 'rb'))
-    scaler = pickle.load(open('scaler.pkl', 'rb'))
-    encoder = pickle.load(open('encoder.pkl', 'rb'))
-    columns = pickle.load(open('columns.pkl', 'rb'))
-except Exception as e:
-    st.error(f"Error loading model files: {e}")
+st.markdown("### Enter Applicant Details")
 
-# ---------------- INPUTS ---------------- #
+# ---------- SAFE CONVERSION FUNCTION ----------
+def to_float(value):
+    try:
+        return float(value)
+    except:
+        return 0
 
-st.header("Enter Applicant Details")
+# ---------- INPUTS (TEXT INPUT - NO +/-) ----------
 
-income = st.number_input("Applicant Income (Monthly)", min_value=0.0)
-co_income = st.number_input("Coapplicant Income (Monthly)", value=0.0)
-loan_amount = st.number_input("Loan Amount", min_value=0.0)
-loan_term = st.number_input("Loan Term (in months)", value=60)
+income = st.text_input("Applicant Income (Monthly)", placeholder="e.g. 20000")
+co_income = st.text_input("Coapplicant Income", placeholder="e.g. 5000")
+loan_amount = st.text_input("Loan Amount", placeholder="e.g. 50000")
+loan_term = st.text_input("Loan Term (months)", placeholder="e.g. 60")
 
-credit_score = st.number_input("Credit Score", min_value=0.0)
-savings = st.number_input("Savings", value=0.0)
+credit_score = st.text_input("Credit Score", placeholder="e.g. 750")
+savings = st.text_input("Savings", placeholder="e.g. 10000")
 
 education = st.selectbox("Education Level", ["Graduate", "Postgraduate", "Undergraduate"])
 employment = st.selectbox("Employment Status", ["Salaried", "Self-Employed", "Business"])
@@ -35,25 +34,35 @@ property_area = st.selectbox("Property Area", ["Urban", "Semi-Urban", "Rural"])
 gender = st.selectbox("Gender", ["Male", "Female"])
 employer_category = st.selectbox("Employer Category", ["Private", "Government"])
 
-# ---------------- PREDICTION ---------------- #
+# Convert inputs
+income = to_float(income)
+co_income = to_float(co_income)
+loan_amount = to_float(loan_amount)
+loan_term = to_float(loan_term)
+credit_score = to_float(credit_score)
+savings = to_float(savings)
 
-if st.button("Predict Loan Status"):
+# ---------- LOAD MODEL ----------
+try:
+    model = pickle.load(open('model.pkl', 'rb'))
+    scaler = pickle.load(open('scaler.pkl', 'rb'))
+    encoder = pickle.load(open('encoder.pkl', 'rb'))
+    columns = pickle.load(open('columns.pkl', 'rb'))
+except Exception as e:
+    st.error(f"Error loading model files: {e}")
+
+# ---------- PREDICTION ----------
+if st.button("🔍 Predict Loan Status"):
 
     try:
-        # 🔥 EMI Calculation
-        if loan_term == 0:
-            emi = 0
-        else:
-            emi = loan_amount / loan_term
+        # EMI Calculation
+        emi = loan_amount / loan_term if loan_term != 0 else 0
 
         # Total income
         total_income = income + co_income
 
-        # 🔥 Improved DTI (EMI-based)
-        if total_income == 0:
-            dti = 0
-        else:
-            dti = emi / total_income
+        # DTI Calculation
+        dti = emi / total_income if total_income != 0 else 0
 
         st.info(f"📊 Monthly EMI: {round(emi, 2)}")
         st.info(f"📊 DTI Ratio: {round(dti, 3)}")
@@ -75,7 +84,7 @@ if st.button("Predict Loan Status"):
             "Employer_Category":[employer_category]
         })
 
-        # Convert Education manually
+        # Education encoding
         education_map = {
             "Graduate": 0,
             "Postgraduate": 1,
@@ -83,18 +92,16 @@ if st.button("Predict Loan Status"):
         }
         input_df["Education_Level"] = input_df["Education_Level"].map(education_map)
 
-        # Handle missing values
         input_df = input_df.fillna(0)
 
         # Feature engineering
         input_df["DTI_Ratio_sq"] = input_df["DTI_Ratio"] ** 2
         input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
 
-        # Encode categorical variables
+        # Encoding
         cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
 
         encoded = encoder.transform(input_df[cat_cols])
-
         try:
             encoded = encoded.toarray()
         except:
@@ -105,13 +112,8 @@ if st.button("Predict Loan Status"):
             columns=encoder.get_feature_names_out(cat_cols)
         )
 
-        # Combine data
         input_df = pd.concat([input_df.drop(columns=cat_cols), encoded_df], axis=1)
-
-        # Match training columns
         input_df = input_df.reindex(columns=columns, fill_value=0)
-
-        # Ensure numeric
         input_df = input_df.astype(float)
 
         # Scale
@@ -127,23 +129,21 @@ if st.button("Predict Loan Status"):
         else:
             st.error(f"❌ Loan Rejected (Risk: {round(probability[0][0]*100,2)}%)")
 
-            # 🔥 Smart Explanation
-            st.write("### Reasons:")
+            st.write("### ❗ Reasons:")
             if dti > 0.5:
                 st.write(f"- High DTI Ratio ({round(dti,2)})")
             if credit_score < 650:
                 st.write("- Low Credit Score")
             if income < emi * 5:
-                st.write("- Income is low compared to EMI")
+                st.write("- Income too low compared to EMI")
 
-            # 🔥 Suggestions
-            st.write("### Suggestions:")
+            st.write("### 💡 Suggestions:")
             if dti > 0.5:
                 st.write("- Increase loan term or reduce loan amount")
             if credit_score < 650:
                 st.write("- Improve credit score above 700")
             if income < emi * 5:
-                st.write("- Increase income or reduce EMI burden")
+                st.write("- Increase income or reduce EMI")
 
     except Exception as e:
-        st.error(f"⚠️ Error occurred: {e}")
+        st.error(f"⚠️ Error: {e}")
