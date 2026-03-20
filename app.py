@@ -100,7 +100,6 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
             dti = emi / total_income if total_income != 0 else 0
 
             st.info(f"📊 Monthly EMI: {round(emi, 2)}")
-            st.info(f"📊 DTI Ratio: {round(dti, 3)}")
 
             input_df = pd.DataFrame({
                 "Applicant_Income":[income],
