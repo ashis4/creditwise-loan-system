@@ -13,14 +13,12 @@ def load_css(file_name):
 
 load_css("style.css")
 
-# ---------- LOAD HTML ----------
+# ---------- LOAD HEADER ----------
 def load_html(file_name):
     with open(file_name, encoding="utf-8") as f:
         return f.read()
 
-# ---------- HEADER ----------
 st.markdown(load_html("header.html"), unsafe_allow_html=True)
-st.markdown("<div style='margin-top:40px;'></div>", unsafe_allow_html=True)
 
 # ---------- SAFE FLOAT ----------
 def to_float(value):
@@ -94,19 +92,13 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
 
     else:
         try:
-            # EMI
             emi = loan_amount / loan_term if loan_term != 0 else 0
-
-            # Total Income
             total_income = income + co_income
-
-            # DTI
             dti = emi / total_income if total_income != 0 else 0
 
             st.info(f"📊 Monthly EMI: {round(emi, 2)}")
             st.info(f"📊 DTI Ratio: {round(dti, 3)}")
 
-            # Dataframe
             input_df = pd.DataFrame({
                 "Applicant_Income":[income],
                 "Coapplicant_Income":[co_income],
@@ -123,17 +115,14 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
                 "Employer_Category":[employer_category]
             })
 
-            # Encode Education
             education_map = {"Graduate":0,"Postgraduate":1,"Undergraduate":2}
             input_df["Education_Level"] = input_df["Education_Level"].map(education_map)
 
             input_df = input_df.fillna(0)
 
-            # Feature engineering
             input_df["DTI_Ratio_sq"] = input_df["DTI_Ratio"] ** 2
             input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
 
-            # Encoding categorical
             cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
 
             encoded = encoder.transform(input_df[cat_cols])
@@ -151,14 +140,11 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
             input_df = input_df.reindex(columns=columns, fill_value=0)
             input_df = input_df.astype(float)
 
-            # Scale
             input_scaled = scaler.transform(input_df)
 
-            # Predict
             prediction = model.predict(input_scaled)
             probability = model.predict_proba(input_scaled)
 
-            # Result
             if prediction[0] == 1:
                 st.success(f"✅ Loan Approved (Confidence: {round(probability[0][1]*100,2)}%)")
             else:
@@ -182,3 +168,29 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
 
         except Exception as e:
             st.error(f"⚠️ Error: {e}")
+
+# ---------- FOOTER ----------
+st.markdown("---")
+
+st.markdown("""
+<div style='
+    text-align: center;
+    color: gray;
+    font-size: 14px;
+    padding: 15px;
+    margin-top: 30px;
+'>
+
+<b>Developed by Ashish Gaikar</b><br>
+
+This project is developed for educational purposes using Machine Learning.<br>
+The dataset was analyzed and the model was trained using Jupyter Lab.<br><br>
+
+© 2026 CreditWise. All rights reserved.<br>
+
+<a href="https://github.com/ashis4" target="_blank" style="color:#1f77b4;">
+🔗 View on GitHub
+</a>
+
+</div>
+""", unsafe_allow_html=True)
