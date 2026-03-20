@@ -37,11 +37,13 @@ with col1:
     income = st.text_input("Applicant Income (Monthly)")
     credit_score = st.text_input("Credit Score")
     education = st.selectbox("Education Level", ["Graduate", "Postgraduate", "Undergraduate"])
+    gender = st.selectbox("Gender", ["Male", "Female"])
 
 with col2:
     co_income = st.text_input("Coapplicant Income")
     savings = st.text_input("Savings")
     employment = st.selectbox("Employment Status", ["Salaried", "Self-Employed", "Business"])
+    marital = st.selectbox("Marital Status", ["Single", "Married"])
 
 st.markdown("---")
 
@@ -55,13 +57,10 @@ with col3:
     loan_purpose = st.selectbox("Loan Purpose", ["Home", "Education", "Personal"])
 
 with col4:
-    marital = st.selectbox("Marital Status", ["Single", "Married"])
     property_area = st.selectbox("Property Area", ["Urban", "Semi-Urban", "Rural"])
     employer_category = st.selectbox("Employer Category", ["Private", "Government"])
 
 st.markdown("---")
-
-gender = st.selectbox("Gender", ["Male", "Female"])
 
 # ---------- CONVERT INPUTS ----------
 income = to_float(income)
