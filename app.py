@@ -82,80 +82,102 @@ except Exception as e:
 # ---------- PREDICTION ----------
 if st.button("🔍 Predict Loan Status", use_container_width=True):
 
-    try:
-        emi = loan_amount / loan_term if loan_term != 0 else 0
-        total_income = income + co_income
-        dti = emi / total_income if total_income != 0 else 0
+    # ---------- VALIDATION ----------
+    if (
+        income == 0 or
+        loan_amount == 0 or
+        loan_term == 0 or
+        credit_score == 0
+    ):
+        st.warning("⚠️ Please fill all required fields before prediction.")
 
-        st.info(f"📊 Monthly EMI: {round(emi, 2)}")
-        st.info(f"📊 DTI Ratio: {round(dti, 3)}")
-
-        input_df = pd.DataFrame({
-            "Applicant_Income":[income],
-            "Coapplicant_Income":[co_income],
-            "Loan_Amount":[loan_amount],
-            "Credit_Score":[credit_score],
-            "DTI_Ratio":[dti],
-            "Savings":[savings],
-            "Education_Level":[education],
-            "Employment_Status":[employment],
-            "Marital_Status":[marital],
-            "Loan_Purpose":[loan_purpose],
-            "Property_Area":[property_area],
-            "Gender":[gender],
-            "Employer_Category":[employer_category]
-        })
-
-        education_map = {"Graduate":0,"Postgraduate":1,"Undergraduate":2}
-        input_df["Education_Level"] = input_df["Education_Level"].map(education_map)
-
-        input_df = input_df.fillna(0)
-
-        input_df["DTI_Ratio_sq"] = input_df["DTI_Ratio"] ** 2
-        input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
-
-        cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
-
-        encoded = encoder.transform(input_df[cat_cols])
+    else:
         try:
-            encoded = encoded.toarray()
-        except:
-            pass
+            # EMI
+            emi = loan_amount / loan_term if loan_term != 0 else 0
 
-        encoded_df = pd.DataFrame(
-            encoded,
-            columns=encoder.get_feature_names_out(cat_cols)
-        )
+            # Total Income
+            total_income = income + co_income
 
-        input_df = pd.concat([input_df.drop(columns=cat_cols), encoded_df], axis=1)
-        input_df = input_df.reindex(columns=columns, fill_value=0)
-        input_df = input_df.astype(float)
+            # DTI
+            dti = emi / total_income if total_income != 0 else 0
 
-        input_scaled = scaler.transform(input_df)
+            st.info(f"📊 Monthly EMI: {round(emi, 2)}")
+            st.info(f"📊 DTI Ratio: {round(dti, 3)}")
 
-        prediction = model.predict(input_scaled)
-        probability = model.predict_proba(input_scaled)
+            # Dataframe
+            input_df = pd.DataFrame({
+                "Applicant_Income":[income],
+                "Coapplicant_Income":[co_income],
+                "Loan_Amount":[loan_amount],
+                "Credit_Score":[credit_score],
+                "DTI_Ratio":[dti],
+                "Savings":[savings],
+                "Education_Level":[education],
+                "Employment_Status":[employment],
+                "Marital_Status":[marital],
+                "Loan_Purpose":[loan_purpose],
+                "Property_Area":[property_area],
+                "Gender":[gender],
+                "Employer_Category":[employer_category]
+            })
 
-        if prediction[0] == 1:
-            st.success(f"✅ Loan Approved (Confidence: {round(probability[0][1]*100,2)}%)")
-        else:
-            st.error(f"❌ Loan Rejected (Risk: {round(probability[0][0]*100,2)}%)")
+            # Encode Education
+            education_map = {"Graduate":0,"Postgraduate":1,"Undergraduate":2}
+            input_df["Education_Level"] = input_df["Education_Level"].map(education_map)
 
-            st.write("### ❗ Reasons:")
-            if dti > 0.5:
-                st.write(f"- High DTI Ratio ({round(dti,2)})")
-            if credit_score < 650:
-                st.write("- Low Credit Score")
-            if income < emi * 5:
-                st.write("- Income too low compared to EMI")
+            input_df = input_df.fillna(0)
 
-            st.write("### 💡 Suggestions:")
-            if dti > 0.5:
-                st.write("- Increase loan term or reduce loan amount")
-            if credit_score < 650:
-                st.write("- Improve credit score above 700")
-            if income < emi * 5:
-                st.write("- Increase income or reduce EMI")
+            # Feature engineering
+            input_df["DTI_Ratio_sq"] = input_df["DTI_Ratio"] ** 2
+            input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
 
-    except Exception as e:
-        st.error(f"⚠️ Error: {e}")
+            # Encoding categorical
+            cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
+
+            encoded = encoder.transform(input_df[cat_cols])
+            try:
+                encoded = encoded.toarray()
+            except:
+                pass
+
+            encoded_df = pd.DataFrame(
+                encoded,
+                columns=encoder.get_feature_names_out(cat_cols)
+            )
+
+            input_df = pd.concat([input_df.drop(columns=cat_cols), encoded_df], axis=1)
+            input_df = input_df.reindex(columns=columns, fill_value=0)
+            input_df = input_df.astype(float)
+
+            # Scale
+            input_scaled = scaler.transform(input_df)
+
+            # Predict
+            prediction = model.predict(input_scaled)
+            probability = model.predict_proba(input_scaled)
+
+            # Result
+            if prediction[0] == 1:
+                st.success(f"✅ Loan Approved (Confidence: {round(probability[0][1]*100,2)}%)")
+            else:
+                st.error(f"❌ Loan Rejected (Risk: {round(probability[0][0]*100,2)}%)")
+
+                st.write("### ❗ Reasons:")
+                if dti > 0.5:
+                    st.write(f"- High DTI Ratio ({round(dti,2)})")
+                if credit_score < 650:
+                    st.write("- Low Credit Score")
+                if income < emi * 5:
+                    st.write("- Income too low compared to EMI")
+
+                st.write("### 💡 Suggestions:")
+                if dti > 0.5:
+                    st.write("- Increase loan term or reduce loan amount")
+                if credit_score < 650:
+                    st.write("- Improve credit score above 700")
+                if income < emi * 5:
+                    st.write("- Increase income or reduce EMI")
+
+        except Exception as e:
+            st.error(f"⚠️ Error: {e}")
