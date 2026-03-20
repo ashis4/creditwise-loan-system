@@ -203,7 +203,7 @@ st.markdown("""
 
 <div>
     <b>Developer Credits</b><br>
-    <span style="color:#9ca3af;">Developed by Ashish Gaikar<br>Built using Machine Learning with dataset analysis in Jupyter Lab</span>
+    <span style="color:#9ca3af;">Developed by Ashish Gaikar<br>Built using Machine Learning with dataset <br> analysis in Jupyter Lab</span>
 </div>
 
 <div>
