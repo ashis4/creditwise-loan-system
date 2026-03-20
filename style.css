@@ -6,7 +6,7 @@
     margin-top: 0rem !important;
 }
 
-/* Remove Streamlit header completely */
+/* Remove Streamlit header */
 header {
     height: 0px !important;
     margin: 0 !important;
@@ -45,7 +45,7 @@ header {
     text-decoration: underline;
 }
 
-/* ---------- INPUT FIELDS ---------- */
+/* ---------- INPUT ---------- */
 input {
     border-radius: 8px !important;
     padding: 8px !important;
@@ -65,49 +65,7 @@ input {
     background-color: #155a8a;
 }
 
-/* ---------- FOOTER ---------- */
-.footer {
-    background-color: #111827;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    margin-top: 40px;
-}
-
-/* Footer title */
-.footer-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-}
-
-/* Footer description */
-.footer-desc {
-    font-size: 14px;
-    color: #9ca3af;
-    margin-top: 8px;
-}
-
-/* Footer copyright */
-.footer-copy {
-    font-size: 13px;
-    color: #6b7280;
-    margin-top: 8px;
-}
-
-/* GitHub link */
-.github-link {
-    display: inline-block;
-    margin-top: 10px;
-    color: #3b82f6;
-    text-decoration: none;
-}
-
-.github-link:hover {
-    text-decoration: underline;
-}
-
-/* ---------- HIDE STREAMLIT DEFAULT UI ---------- */
+/* ---------- HIDE STREAMLIT UI ---------- */
 [data-testid="stToolbar"] {
     display: none;
 }
