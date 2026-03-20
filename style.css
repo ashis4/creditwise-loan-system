@@ -83,3 +83,10 @@ input {
 footer {
     visibility: hidden;
 }
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 10px;
+    color: gray;
+    font-size: 14px;
+}
