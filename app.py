@@ -201,7 +201,7 @@ st.markdown("""
     margin-bottom:10px;
 ">
 
-<div>
+<div style="margin-left: 30px;">
     <b>Developer Credits</b><br>
     <span style="color:#9ca3af;">Developed by Ashish Gaikar<br>Built using Machine Learning with dataset <br> analysis in Jupyter Lab</span>
 </div>
