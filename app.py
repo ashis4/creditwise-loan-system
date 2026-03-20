@@ -201,12 +201,12 @@ st.markdown("""
     margin-bottom:10px;
 ">
 
-<div style="margin-left: 60px;">
+<div style="margin-left: 30%; color: white">
     <b>Developer Credits</b><br>
     <span style="color:#9ca3af;">Developed by Ashish Gaikar<br>Built using Machine Learning with dataset <br> analysis in Jupyter Lab</span>
 </div>
 
-<div>
+<div style="margin-right: 30%; color:white">
     <b>Dataset Source</b>
     <span style="color:#9ca3af;">Standardized <br>Loan Data(Synthesized)</span>
 </div>
