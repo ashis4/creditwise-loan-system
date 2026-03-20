@@ -174,63 +174,58 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
 
 # ---------- FIXED COMPACT FOOTER ----------
 st.markdown("---")
+
 st.markdown("""
 <div style="
-    background: #111827;
+    background: linear-gradient(90deg, #1f2937, #111827);
     color: white;
-    padding: 20px;
-    border-radius: 12px;
-    margin-top: 10px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-family: 'Segoe UI', sans-serif;
 ">
 
-    <div style="text-align:center; margin-bottom: 25px;">
-        <h2 style="margin:0; font-size:28px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-            💼 CreditWise
-        </h2>
-        <p style="margin:8px 0 0; font-size:14px; color:#9ca3af; letter-spacing: 0.5px;">
-            AI-Powered Loan Approval & Advisory System
-        </p>
-    </div>
+<div style="text-align:center; margin-bottom:10px;">
+    <h2 style="margin:0; font-size:24px;">💼 CreditWise</h2>
+    <p style="margin:4px 0 0; font-size:13px; color:#d1d5db;">
+        AI-Powered Loan Approval & Advisory System
+    </p>
+</div>
 
-    <div style="
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-        padding: 0 10%;
-        margin-bottom: 20px;
-    ">
-        <div style="text-align: left;">
-            <b style="font-size: 16px;">Developer Credits</b><br>
-            <div style="color:#9ca3af; font-size: 14px; margin-top: 8px; line-height: 1.6;">
-                Developed by Ashish Gaikar<br>
-                Built using Machine Learning with dataset<br>
-                analysis in Jupyter Lab
-            </div>
-        </div>
+<div style="
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:15px;
+    font-size:15px;
+    margin-bottom:10px;
+">
 
-        <div style="text-align: left;">
-            <b style="font-size: 16px;">Dataset Source:</b>
-            <span style="color:#9ca3af; font-size: 14px;"> Standardized</span><br>
-            <span style="color:#9ca3af; font-size: 14px;">Loan Data (Synthesized)</span>
-            
-            <div style="margin-top: 15px;">
-                <a href="https://github.com/ashis4" target="_blank" 
-                   style="color:white; text-decoration:none; font-size:14px; display: flex; align-items: center; gap: 8px;">
-                   <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark-Light-32.png" width="20" height="20">
-                   View on GitHub
-                </a>
-            </div>
-        </div>
-    </div>
+<div style="margin-left: 30%; color: white">
+    <b>Developer Credits</b><br>
+    <span style="color:#9ca3af;">Developed by Ashish Gaikar<br>Built using Machine Learning with dataset <br> analysis in Jupyter Lab</span>
+</div>
 
-    <hr style="border:0; border-top: 1px solid #374151; margin: 10px 0;">
-    
-    <div style="text-align:center; font-size:12px; color:#6b7280; padding-top: 5px;">
-        © 2026 CreditWise. All rights reserved.
-    </div>
+<div style="margin-right: 30%; color:white">
+    <b>Dataset Source</b>
+    <span style="color:#9ca3af;">Standardized <br>Loan Data(Synthesized)</span>
+</div>
+
+</div>
+
+<div style="text-align:center; margin:8px 0;">
+    <a href="https://github.com/ashis4" target="_blank"
+       style="color:#60a5fa; text-decoration:none; font-size:13px;">
+        🔗 View on GitHub
+    </a>
+</div>
+
+<hr style="border:0.5px solid #374151; margin:8px 0;">
+
+<div style="text-align:center; font-size:11px; color:#6b7280;">
+    © 2026 CreditWise. All rights reserved.
+</div>
 
 </div>
 """, unsafe_allow_html=True)
-
 
