@@ -1,13 +1,20 @@
-/* ---------- REMOVE TOP SPACE ---------- */
+/* ---------- REMOVE ALL TOP SPACE ---------- */
 .main .block-container {
     padding-top: 0rem !important;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    margin-top: 0rem !important;
 }
 
-/* Remove Streamlit header height */
+/* Kill Streamlit header completely */
 header {
     height: 0px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Push header fully to top */
+.header {
+    margin-top: -40px;   /* increase if still gap */
+    padding: 10px 20px;  /* reduced internal padding */
 }
 
 /* ---------- HEADER ---------- */
