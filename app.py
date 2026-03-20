@@ -173,20 +173,7 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
             st.error(f"⚠️ Error: {e}")
 
 
-st.markdown("""
-<style>
-/* Completely remove default spacing */
-.main > div {
-    padding-bottom: 0rem !important;
-}
-
-/* Remove footer gap */
-footer {
-    visibility: hidden;
-}
-</style>
-""", unsafe_allow_html=True)
-
+st.markdown("<div style='margin-bottom:-30px'></div>", unsafe_allow_html=True)
 # ---------- FIXED COMPACT FOOTER ----------
 st.markdown("---")
 
