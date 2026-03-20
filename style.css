@@ -1,12 +1,12 @@
 /* ---------- REMOVE TOP SPACE ---------- */
 .main .block-container {
     padding-top: 0rem !important;
+    margin-top: 0rem !important;
     padding-left: 2rem;
     padding-right: 2rem;
-    margin-top: 0rem !important;
 }
 
-/* Remove Streamlit header */
+/* Remove Streamlit default header space */
 header {
     height: 0px !important;
     margin: 0 !important;
@@ -22,7 +22,7 @@ header {
     padding: 10px 20px;
     border-radius: 10px;
     color: white;
-    margin-top: -40px;
+    margin-top: -40px; /* Adjust if needed */
 }
 
 .header h1 {
@@ -45,7 +45,7 @@ header {
     text-decoration: underline;
 }
 
-/* ---------- INPUT ---------- */
+/* ---------- INPUT FIELDS ---------- */
 input {
     border-radius: 8px !important;
     padding: 8px !important;
@@ -65,7 +65,18 @@ input {
     background-color: #155a8a;
 }
 
-/* ---------- HIDE STREAMLIT UI ---------- */
+/* ---------- SPACING IMPROVEMENT ---------- */
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Optional light background */
+body {
+    background-color: #f9fafb;
+}
+
+/* ---------- HIDE STREAMLIT DEFAULT UI ---------- */
 [data-testid="stToolbar"] {
     display: none;
 }
