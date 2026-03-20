@@ -231,7 +231,7 @@ st.markdown("""
     </a>
 </div>
 
-<hr style="border:0.5px solid #374151; margin:4px 4px;">
+<hr style="border:0.5px solid #374151; margin-top : 5px;">
 
 <div style="text-align:center; font-size:13px; color:#6b7280; margin:0;">
     © 2026 CreditWise. All rights reserved.
