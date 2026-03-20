@@ -172,6 +172,21 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
         except Exception as e:
             st.error(f"⚠️ Error: {e}")
 
+
+st.markdown("""
+<style>
+/* Completely remove default spacing */
+.main > div {
+    padding-bottom: 0rem !important;
+}
+
+/* Remove footer gap */
+footer {
+    visibility: hidden;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # ---------- FIXED COMPACT FOOTER ----------
 st.markdown("---")
 
