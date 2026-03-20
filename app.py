@@ -229,6 +229,11 @@ st.markdown("""
        style="color:#60a5fa; text-decoration:none; font-size:13px;">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLYglJ5cooESw4EEKVpBAtJQtGC4qYb9Os_Q&s" width="30" height="30" style="vertical-align:middle;">
     </a>
+    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    <a href="https://github.com/ashis4" target="_blank"
+       style="color:#60a5fa; text-decoration:none; font-size:13px;">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSI7wLQhWNc0GUw6OvUbzIUouG-UdxmSqmdMQ&s" width="30" height="30" style="vertical-align:middle;">
+    </a>
 </div>
 
 <hr style="border:0.5px solid #374151; margin:4px 0;">
