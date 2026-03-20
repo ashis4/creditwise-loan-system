@@ -227,7 +227,7 @@ st.markdown("""
     </a>
     <a href="https://github.com/ashis4" target="_blank"
        style="color:#60a5fa; text-decoration:none; font-size:13px;">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" width="25" height="25" style="vertical-align:middle;">
+        <img src="https://cdn-icons-png.freepik.com/512/5968/5968866.png" width="25" height="25" style="vertical-align:middle;">
     </a>
 </div>
 
