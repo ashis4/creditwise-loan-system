@@ -201,12 +201,12 @@ st.markdown("""
     margin-bottom:10px;
 ">
 
-<div style="margin-left: 30%; color: white">
+<div style="margin-left: 25%; color: white">
     <b>Developer Credits</b><br>
     <span style="color:#9ca3af;">Developed by Ashish Gaikar<br>Built using Machine Learning with dataset <br> analysis in Jupyter Lab</span>
 </div>
 
-<div style="margin-right: 30%; color:white">
+<div style="margin-right: 25%; color:white">
     <b>Dataset Source</b>
     <span style="color:#9ca3af;">Standardized <br>Loan Data(Synthesized)</span>
 </div>
@@ -222,7 +222,7 @@ st.markdown("""
 
 <hr style="border:0.5px solid #374151; margin:8px 0;">
 
-<div style="text-align:center; font-size:11px; color:#6b7280;">
+<div style="text-align:center; font-size:13px; color:#6b7280;">
     © 2026 CreditWise. All rights reserved.
 </div>
 
