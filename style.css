@@ -32,7 +32,8 @@ header {
 
 .header p {
     margin: 0;
-    padding-left: 15px;
+    padding-left: 13px;
+    font_size: 20px;
 }
 
 .header a {
