@@ -19,9 +19,11 @@ except Exception as e:
 
 st.header("Enter Applicant Details")
 
-income = st.number_input("Applicant Income", min_value=0.0)
-co_income = st.number_input("Coapplicant Income", value=0.0)
+income = st.number_input("Applicant Income (Monthly)", min_value=0.0)
+co_income = st.number_input("Coapplicant Income (Monthly)", value=0.0)
 loan_amount = st.number_input("Loan Amount", min_value=0.0)
+loan_term = st.number_input("Loan Term (in months)", value=60)
+
 credit_score = st.number_input("Credit Score", min_value=0.0)
 savings = st.number_input("Savings", value=0.0)
 
@@ -38,15 +40,23 @@ employer_category = st.selectbox("Employer Category", ["Private", "Government"])
 if st.button("Predict Loan Status"):
 
     try:
-        # 🔥 Improved DTI calculation (REALISTIC)
+        # 🔥 EMI Calculation
+        if loan_term == 0:
+            emi = 0
+        else:
+            emi = loan_amount / loan_term
+
+        # Total income
         total_income = income + co_income
 
+        # 🔥 Improved DTI (EMI-based)
         if total_income == 0:
             dti = 0
         else:
-            dti = loan_amount / (total_income * 12)
+            dti = emi / total_income
 
-        st.info(f"📊 Calculated DTI Ratio: {round(dti, 3)}")
+        st.info(f"📊 Monthly EMI: {round(emi, 2)}")
+        st.info(f"📊 DTI Ratio: {round(dti, 3)}")
 
         # Create dataframe
         input_df = pd.DataFrame({
@@ -116,6 +126,24 @@ if st.button("Predict Loan Status"):
             st.success(f"✅ Loan Approved (Confidence: {round(probability[0][1]*100,2)}%)")
         else:
             st.error(f"❌ Loan Rejected (Risk: {round(probability[0][0]*100,2)}%)")
+
+            # 🔥 Smart Explanation
+            st.write("### Reasons:")
+            if dti > 0.5:
+                st.write(f"- High DTI Ratio ({round(dti,2)})")
+            if credit_score < 650:
+                st.write("- Low Credit Score")
+            if income < emi * 5:
+                st.write("- Income is low compared to EMI")
+
+            # 🔥 Suggestions
+            st.write("### Suggestions:")
+            if dti > 0.5:
+                st.write("- Increase loan term or reduce loan amount")
+            if credit_score < 650:
+                st.write("- Improve credit score above 700")
+            if income < emi * 5:
+                st.write("- Increase income or reduce EMI burden")
 
     except Exception as e:
         st.error(f"⚠️ Error occurred: {e}")
