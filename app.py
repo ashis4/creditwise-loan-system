@@ -15,7 +15,7 @@ load_css("style.css")
 
 # ---------- LOAD HTML ----------
 def load_html(file_name):
-    with open(file_name) as f:
+    with open(file_name, encoding="utf-8") as f:
         return f.read()
 
 # ---------- HEADER ----------
@@ -23,7 +23,7 @@ st.markdown(load_html("header.html"), unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# ---------- SAFE FLOAT CONVERSION ----------
+# ---------- SAFE FLOAT ----------
 def to_float(value):
     try:
         return float(value)
@@ -115,7 +115,7 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
             "Employer_Category":[employer_category]
         })
 
-        # Encode Education manually
+        # Encode Education
         education_map = {"Graduate":0,"Postgraduate":1,"Undergraduate":2}
         input_df["Education_Level"] = input_df["Education_Level"].map(education_map)
 
@@ -176,8 +176,4 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
         st.error(f"⚠️ Error: {e}")
 
 # ---------- FOOTER ----------
-def load_html(file_name):
-    with open(file_name, encoding="utf-8") as f:
-        return f.read()
-
 st.markdown(load_html("footer.html"), unsafe_allow_html=True)
