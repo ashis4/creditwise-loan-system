@@ -1,172 +1,240 @@
 import streamlit as st
+import pickle
 import pandas as pd
 import numpy as np
-import pickle
 
-# --- PAGE CONFIGURATION ---
-st.set_page_config(page_title="CreditWise Loan System", page_icon="💼", layout="centered")
+# ---------- PAGE CONFIG ----------
+st.set_page_config(page_title="CreditWise", layout="wide")
 
-# --- LOAD MODEL ---
-# Assuming your model is named 'model.pkl'. Change if necessary.
-with open('model.pkl', 'rb') as f:
-    model = pickle.load(f)
+# ---------- LOAD CSS ----------
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# --- HEADER ---
-st.markdown("<h1 style='text-align: center;'>💼 CreditWise</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'>AI-Powered Loan Approval & Advisory System</p>", unsafe_allow_html=True)
-st.write("---")
+load_css("style.css")
 
-# --- MAIN UI (USER INPUTS) ---
-# Keeping your original layout logic
+# ---------- LOAD HEADER ----------
+def load_html(file_name):
+    with open(file_name, encoding="utf-8") as f:
+        return f.read()
+
+st.markdown(load_html("header.html"), unsafe_allow_html=True)
+
+st.markdown("<div style='margin-top:15px'></div>", unsafe_allow_html=True)
+
+# ---------- SAFE FLOAT ----------
+def to_float(value):
+    try:
+        return float(value)
+    except:
+        return 0
+
+# ---------- INPUT UI ----------
+st.subheader("👤 Applicant Details")
+
 col1, col2 = st.columns(2)
 
 with col1:
+    income = st.text_input("Applicant Income (Monthly)")
+    credit_score = st.text_input("Credit Score")
+    education = st.selectbox("Education Level", ["Graduate", "Postgraduate", "Undergraduate"])
     gender = st.selectbox("Gender", ["Male", "Female"])
-    married = st.selectbox("Married", ["No", "Yes"])
-    dependents = st.selectbox("Dependents", ["0", "1", "2", "3+"])
-    education = st.selectbox("Education", ["Graduate", "Not Graduate"])
-    self_employed = st.selectbox("Self Employed", ["No", "Yes"])
 
 with col2:
-    applicant_income = st.number_input("Applicant Income", min_value=0, value=5000)
-    coapplicant_income = st.number_input("Coapplicant Income", min_value=0, value=0)
-    loan_amount = st.number_input("Loan Amount", min_value=0, value=120)
-    loan_amount_term = st.number_input("Loan Amount Term", min_value=0, value=360)
-    credit_history = st.selectbox("Credit History", [1.0, 0.0])
-    property_area = st.selectbox("Property Area", ["Urban", "Semiurban", "Rural"])
+    co_income = st.text_input("Coapplicant Income")
+    savings = st.text_input("Savings")
+    employment = st.selectbox("Employment Status", ["Salaried", "Self-Employed", "Business"])
+    marital = st.selectbox("Marital Status", ["Single", "Married"])
 
-# --- PREDICTION LOGIC ---
-if st.button("Predict Loan Status", use_container_width=True):
-    # Encoding inputs to match your model training
-    gender_val = 1 if gender == "Male" else 0
-    married_val = 1 if married == "Yes" else 0
-    education_val = 0 if education == "Graduate" else 1
-    employed_val = 1 if self_employed == "Yes" else 0
-    
-    dep_val = 3 if dependents == "3+" else int(dependents)
-    
-    prop_map = {"Rural": 0, "Semiurban": 1, "Urban": 2}
-    prop_val = prop_map[property_area]
+st.markdown("---")
 
-    features = np.array([[gender_val, married_val, dep_val, education_val, employed_val, 
-                          applicant_income, coapplicant_income, loan_amount, 
-                          loan_amount_term, credit_history, prop_val]])
+st.subheader("🏦 Loan Details")
 
-    prediction = model.predict(features)
-    
-    if prediction == 1:
-        st.success("🎉 Loan Approved!")
+col3, col4 = st.columns(2)
+
+with col3:
+    loan_amount = st.text_input("Loan Amount")
+    loan_term = st.text_input("Loan Term (months)")
+    loan_purpose = st.selectbox("Loan Purpose", ["Home", "Education", "Personal"])
+
+with col4:
+    property_area = st.selectbox("Property Area", ["Urban", "Semi-Urban", "Rural"])
+    employer_category = st.selectbox("Employer Category", ["Private", "Government"])
+
+st.markdown("---")
+
+# ---------- CONVERT INPUTS ----------
+income = to_float(income)
+co_income = to_float(co_income)
+loan_amount = to_float(loan_amount)
+loan_term = to_float(loan_term)
+credit_score = to_float(credit_score)
+savings = to_float(savings)
+
+# ---------- LOAD MODEL ----------
+try:
+    model = pickle.load(open('model.pkl', 'rb'))
+    scaler = pickle.load(open('scaler.pkl', 'rb'))
+    encoder = pickle.load(open('encoder.pkl', 'rb'))
+    columns = pickle.load(open('columns.pkl', 'rb'))
+except Exception as e:
+    st.error(f"Error loading model files: {e}")
+
+# ---------- PREDICTION ----------
+if st.button("🔍 Predict Loan Status", use_container_width=True):
+
+    # Validation
+    if (
+        income == 0 or
+        loan_amount == 0 or
+        loan_term == 0 or
+        credit_score == 0
+    ):
+        st.warning("⚠️ Please fill all required fields before prediction.")
+
     else:
-        st.error("❌ Loan Rejected.")
+        try:
+            emi = loan_amount / loan_term if loan_term != 0 else 0
+            total_income = income + co_income
+            dti = emi / total_income if total_income != 0 else 0
 
-# --- THE NEW COMPACT PROFESSIONAL FOOTER ---
-# This replaces your old footer entirely
-st.write("##") # Spacing before footer
-st.write("---")
+            st.info(f"📊 Monthly EMI: {round(emi, 2)}")
+            st.info(f"📊 DTI Ratio: {round(dti, 3)}")
 
-footer_content = """
-<style>
-/* Hide Streamlit's default footer */
-footer {visibility: hidden;}
-#MainMenu {visibility: hidden;}
+            input_df = pd.DataFrame({
+                "Applicant_Income":[income],
+                "Coapplicant_Income":[co_income],
+                "Loan_Amount":[loan_amount],
+                "Credit_Score":[credit_score],
+                "DTI_Ratio":[dti],
+                "Savings":[savings],
+                "Education_Level":[education],
+                "Employment_Status":[employment],
+                "Marital_Status":[marital],
+                "Loan_Purpose":[loan_purpose],
+                "Property_Area":[property_area],
+                "Gender":[gender],
+                "Employer_Category":[employer_category]
+            })
 
-.footer-container {
-    background-color: #161a24; /* Dark theme matching your image */
-    color: #e0e0e0;
-    padding: 30px 20px 15px 20px;
-    font-family: 'Inter', sans-serif;
+            # Encode Education
+            education_map = {"Graduate":0,"Postgraduate":1,"Undergraduate":2}
+            input_df["Education_Level"] = input_df["Education_Level"].map(education_map)
+
+            input_df = input_df.fillna(0)
+
+            # Feature Engineering
+            input_df["DTI_Ratio_sq"] = input_df["DTI_Ratio"] ** 2
+            input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
+
+            # Encoding
+            cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
+
+            encoded = encoder.transform(input_df[cat_cols])
+            try:
+                encoded = encoded.toarray()
+            except:
+                pass
+
+            encoded_df = pd.DataFrame(
+                encoded,
+                columns=encoder.get_feature_names_out(cat_cols)
+            )
+
+            input_df = pd.concat([input_df.drop(columns=cat_cols), encoded_df], axis=1)
+            input_df = input_df.reindex(columns=columns, fill_value=0)
+            input_df = input_df.astype(float)
+
+            # Scaling
+            input_scaled = scaler.transform(input_df)
+
+            # Prediction
+            prediction = model.predict(input_scaled)
+            probability = model.predict_proba(input_scaled)
+
+            if prediction[0] == 1:
+                st.success(f"✅ Loan Approved (Confidence: {round(probability[0][1]*100,2)}%)")
+            else:
+                st.error(f"❌ Loan Rejected (Risk: {round(probability[0][0]*100,2)}%)")
+
+                st.write("### ❗ Reasons:")
+                if dti > 0.5:
+                    st.write(f"- High DTI Ratio ({round(dti,2)})")
+                if credit_score < 650:
+                    st.write("- Low Credit Score")
+                if income < emi * 5:
+                    st.write("- Income too low compared to EMI")
+
+                st.write("### 💡 Suggestions:")
+                if dti > 0.5:
+                    st.write("- Increase loan term or reduce loan amount")
+                if credit_score < 650:
+                    st.write("- Improve credit score above 700")
+                if income < emi * 5:
+                    st.write("- Increase income or reduce EMI")
+
+        except Exception as e:
+            st.error(f"⚠️ Error: {e}")
+
+# ---------- COMPACT PREMIUM FOOTER ----------
+st.markdown("---")
+
+st.markdown("""
+<div style="
+    background: linear-gradient(90deg, #1f2937, #111827);
+    color: white;
+    padding: 15px 20px;
     border-radius: 10px;
-}
+    margin-top: 20px;
+    font-family: 'Segoe UI', sans-serif;
+">
 
-.footer-top {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.footer-section-title {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #888e9b;
-    margin-bottom: 12px;
-}
-
-.footer-text {
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-.footer-link {
-    display: block;
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 14px;
-    margin-bottom: 8px;
-    transition: 0.3s;
-}
-
-.footer-link:hover {
-    color: #ff4b4b;
-}
-
-.footer-bottom {
-    border-top: 1px solid #2d323e;
-    padding-top: 15px;
-    text-align: center;
-    font-size: 12px;
-    color: #636a77;
-}
-
-.social-icons {
-    display: flex;
-    gap: 15px;
-    margin-top: 10px;
-}
-
-/* Responsive adjustment */
-@media (max-width: 600px) {
-    .footer-top { grid-template-columns: 1fr; text-align: center; }
-    .social-icons { justify-content: center; }
-}
-</style>
-
-<div class="footer-container">
-    <div class="footer-top">
-        <div>
-            <div class="footer-section-title">Developer Credits</div>
-            <p class="footer-text">Developed by <b>Ashish Gaikar</b><br>
-            Built using Machine Learning with dataset analysis in Jupyter Lab.</p>
-        </div>
-        
-        <div>
-            <div class="footer-section-title">Connect</div>
-            <a href="https://github.com/ashis4" class="footer-link">🐙 View on GitHub</a>
-            <div class="social-icons">
-                <a href="#" style="text-decoration:none;">🔵 LinkedIn</a>
-                <a href="#" style="text-decoration:none;">📧 Email</a>
-            </div>
-        </div>
-
-        <div>
-            <div class="footer-section-title">About</div>
-            <a href="#" class="footer-link">About Ashish</a>
-            <a href="#" class="footer-link">Technology Stack</a>
-            <a href="#" class="footer-link">FAQ</a>
-        </div>
-
-        <div>
-            <div class="footer-section-title">Legal</div>
-            <a href="#" class="footer-link">Terms of Service</a>
-            <a href="#" class="footer-link">Privacy Policy</a>
-        </div>
-    </div>
-    
-    <div class="footer-bottom">
-        © 2026 CreditWise. All rights reserved.
-    </div>
+<div style="text-align:center; margin-bottom:10px;">
+    <h2 style="margin:0; font-size:26px;">💼 CreditWise</h2>
+    <p style="margin:4px 0 0; font-size:14px; color:#d1d5db;">
+        AI-Powered Loan Approval & Advisory System
+    </p>
 </div>
-"""
 
-st.markdown(footer_content, unsafe_allow_html=True)
+<div style="
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:15px;
+    font-size:13px;
+">
+
+<div>
+    <h4 style="margin-bottom:4px;">Developer</h4>
+    <p style="margin:0; color:#9ca3af;">
+        Ashish Gaikar<br>
+        Built using ML & Jupyter Lab
+    </p>
+</div>
+
+<div>
+    <h4 style="margin-bottom:4px;">Dataset</h4>
+    <p style="margin:0; color:#9ca3af;">
+        Standardized Loan Data<br>
+        (Synthesized)
+    </p>
+</div>
+
+<div>
+    <h4 style="margin-bottom:4px;">Connect</h4>
+    <a href="https://github.com/ashis4" target="_blank"
+       style="color:#60a5fa; text-decoration:none;">
+        🔗 GitHub
+    </a>
+</div>
+
+</div>
+
+<hr style="border:0.5px solid #374151; margin:12px 0;">
+
+<div style="text-align:center; font-size:12px; color:#6b7280;">
+    © 2026 CreditWise. All rights reserved.
+</div>
+
+</div>
+""", unsafe_allow_html=True)
