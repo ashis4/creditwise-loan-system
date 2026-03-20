@@ -176,5 +176,4 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
         st.error(f"⚠️ Error: {e}")
 
 # ---------- FOOTER ----------
-footer_html = load_html("footer.html")
-st.markdown(footer_html, unsafe_allow_html=True)
+st.markdown(load_html("footer.html"), unsafe_allow_html=True)
