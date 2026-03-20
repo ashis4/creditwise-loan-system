@@ -18,17 +18,7 @@ def load_html(file_name):
     with open(file_name, encoding="utf-8") as f:
         return f.read()
 
-col1, col2 = st.columns([10, 1])
-
-with col1:
-    st.markdown(load_html("header.html"), unsafe_allow_html=True)
-
-with col2:
-    if "theme" not in st.session_state:
-        st.session_state.theme = "dark"
-
-    if st.button("🌙" if st.session_state.theme == "light" else "☀️"):
-        st.session_state.theme = "light" if st.session_state.theme == "dark" else "dark"
+st.markdown(load_html("header.html"), unsafe_allow_html=True)
 
 # spacing after header
 st.markdown("<div style='margin-top:15px'></div>", unsafe_allow_html=True)
