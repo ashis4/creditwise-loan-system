@@ -20,7 +20,7 @@ def load_html(file_name):
 
 # ---------- HEADER ----------
 st.markdown(load_html("header.html"), unsafe_allow_html=True)
-st.markdown("<div style='margin-top:20px;'></div>", unsafe_allow_html=True)
+st.markdown("<div style='margin-top:40px;'></div>", unsafe_allow_html=True)
 
 # ---------- SAFE FLOAT ----------
 def to_float(value):
