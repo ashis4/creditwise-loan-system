@@ -20,6 +20,8 @@ def load_html(file_name):
 
 st.markdown(load_html("header.html"), unsafe_allow_html=True)
 
+st.markdown("<div style='margin-top:15px'></div>", unsafe_allow_html=True)
+
 # ---------- SAFE FLOAT ----------
 def to_float(value):
     try:
@@ -81,7 +83,7 @@ except Exception as e:
 # ---------- PREDICTION ----------
 if st.button("🔍 Predict Loan Status", use_container_width=True):
 
-    # ---------- VALIDATION ----------
+    # Validation
     if (
         income == 0 or
         loan_amount == 0 or
@@ -115,14 +117,17 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
                 "Employer_Category":[employer_category]
             })
 
+            # Encode Education
             education_map = {"Graduate":0,"Postgraduate":1,"Undergraduate":2}
             input_df["Education_Level"] = input_df["Education_Level"].map(education_map)
 
             input_df = input_df.fillna(0)
 
+            # Feature Engineering
             input_df["DTI_Ratio_sq"] = input_df["DTI_Ratio"] ** 2
             input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
 
+            # Encoding
             cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
 
             encoded = encoder.transform(input_df[cat_cols])
@@ -140,8 +145,10 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
             input_df = input_df.reindex(columns=columns, fill_value=0)
             input_df = input_df.astype(float)
 
+            # Scaling
             input_scaled = scaler.transform(input_df)
 
+            # Prediction
             prediction = model.predict(input_scaled)
             probability = model.predict_proba(input_scaled)
 
@@ -169,41 +176,65 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
         except Exception as e:
             st.error(f"⚠️ Error: {e}")
 
-# ---------- PREMIUM FOOTER ----------
+# ---------- COMPACT PREMIUM FOOTER ----------
 st.markdown("---")
 
 st.markdown("""
 <div style="
-    text-align: center;
     background: linear-gradient(90deg, #1f2937, #111827);
     color: white;
-    padding: 20px;
-    border-radius: 12px;
-    margin-top: 40px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-family: 'Segoe UI', sans-serif;
 ">
 
-<h3 style="margin-bottom:10px;">💼 CreditWise</h3>
+<div style="text-align:center; margin-bottom:10px;">
+    <h2 style="margin:0; font-size:26px;">💼 CreditWise</h2>
+    <p style="margin:4px 0 0; font-size:14px; color:#d1d5db;">
+        AI-Powered Loan Approval & Advisory System
+    </p>
+</div>
 
-<p style="font-size:15px; color:#d1d5db;">
-AI-Powered Loan Approval & Advisory System
-</p>
+<div style="
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:15px;
+    font-size:13px;
+">
 
-<p style="font-size:14px; color:#9ca3af; margin-top:10px;">
-Developed by <b>Ashish Gaikar</b><br>
-Built using Machine Learning with dataset analysis in Jupyter Lab
-</p>
+<div>
+    <h4 style="margin-bottom:4px;">Developer</h4>
+    <p style="margin:0; color:#9ca3af;">
+        Ashish Gaikar<br>
+        Built using ML & Jupyter Lab
+    </p>
+</div>
 
-<hr style="border:0.5px solid #374151; margin:15px 0;">
+<div>
+    <h4 style="margin-bottom:4px;">Dataset</h4>
+    <p style="margin:0; color:#9ca3af;">
+        Standardized Loan Data<br>
+        (Synthesized)
+    </p>
+</div>
 
-<p style="font-size:13px; color:#6b7280;">
-© 2026 CreditWise. All rights reserved.
-</p>
+<div>
+    <h4 style="margin-bottom:4px;">Connect</h4>
+    <a href="https://github.com/ashis4" target="_blank"
+       style="color:#60a5fa; text-decoration:none;">
+        🔗 GitHub
+    </a>
+</div>
 
-<a href="https://github.com/ashis4" target="_blank"
-   style="color:#60a5fa; text-decoration:none; font-size:14px;">
-🔗 View on GitHub
-</a>
+</div>
+
+<hr style="border:0.5px solid #374151; margin:12px 0;">
+
+<div style="text-align:center; font-size:12px; color:#6b7280;">
+    © 2026 CreditWise. All rights reserved.
+</div>
 
 </div>
 """, unsafe_allow_html=True)
