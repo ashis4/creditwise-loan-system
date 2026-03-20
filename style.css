@@ -84,63 +84,7 @@ body {
 #MainMenu {
     visibility: hidden;
 }
-
-
-/* ---------- FOOTER ---------- */
-.footer {
-    background: linear-gradient(90deg, #1f2937, #111827);
-    color: white;
-    padding: 15px 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-    font-family: 'Segoe UI', sans-serif;
+footer {
+    visibility: hidden;
 }
 
-.footer-top {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.footer-top h2 {
-    margin: 0;
-    font-size: 26px;
-}
-
-.footer-top p {
-    margin: 4px 0 0;
-    font-size: 14px;
-    color: #d1d5db;
-}
-
-.footer-middle {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 15px;
-    font-size: 13px;
-}
-
-.footer-middle h4 {
-    margin-bottom: 4px;
-}
-
-.footer-middle p {
-    margin: 0;
-    color: #9ca3af;
-}
-
-.footer-middle a {
-    color: #60a5fa;
-    text-decoration: none;
-}
-
-.footer-middle a:hover {
-    text-decoration: underline;
-}
-
-.footer-bottom {
-    text-align: center;
-    font-size: 12px;
-    color: #6b7280;
-    margin-top: 10px;
-}
