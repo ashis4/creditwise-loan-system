@@ -216,7 +216,7 @@ st.markdown("""
 <div style="text-align:center; margin:8px 0;">
     <a href="https://github.com/ashis4" target="_blank"
        style="color:#60a5fa; text-decoration:none; font-size:13px;">
-        <img src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/github.png">
+        <img src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/github.png" width="20" height="20">
          View on GitHub
     </a>
 </div>
