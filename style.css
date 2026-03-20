@@ -1,6 +1,13 @@
-/* ---------- GENERAL ---------- */
-body {
-    font-family: Arial, sans-serif;
+/* ---------- REMOVE TOP SPACE ---------- */
+.main .block-container {
+    padding-top: 0rem !important;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+/* Remove Streamlit header height */
+header {
+    height: 0px !important;
 }
 
 /* ---------- HEADER ---------- */
@@ -12,6 +19,7 @@ body {
     padding: 15px 25px;
     border-radius: 10px;
     color: white;
+    margin-top: -25px;
 }
 
 .header h1 {
@@ -40,7 +48,23 @@ body {
     font-size: 14px;
 }
 
-/* ---------- HIDE STREAMLIT UI ---------- */
+/* ---------- INPUT FIELDS ---------- */
+input {
+    border-radius: 8px !important;
+    padding: 8px !important;
+}
+
+/* ---------- BUTTON ---------- */
+.stButton > button {
+    background-color: #1f77b4;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    height: 3em;
+    width: 100%;
+}
+
+/* ---------- HIDE STREAMLIT DEFAULT UI ---------- */
 [data-testid="stToolbar"] {
     display: none;
 }
@@ -50,9 +74,5 @@ body {
 }
 
 footer {
-    visibility: hidden;
-}
-
-header {
     visibility: hidden;
 }
