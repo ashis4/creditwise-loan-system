@@ -21,8 +21,6 @@ def load_html(file_name):
 # ---------- HEADER ----------
 st.markdown(load_html("header.html"), unsafe_allow_html=True)
 
-st.markdown("<br>", unsafe_allow_html=True)
-
 # ---------- SAFE FLOAT ----------
 def to_float(value):
     try:
@@ -86,19 +84,13 @@ except Exception as e:
 if st.button("🔍 Predict Loan Status", use_container_width=True):
 
     try:
-        # EMI
         emi = loan_amount / loan_term if loan_term != 0 else 0
-
-        # Income
         total_income = income + co_income
-
-        # DTI
         dti = emi / total_income if total_income != 0 else 0
 
         st.info(f"📊 Monthly EMI: {round(emi, 2)}")
         st.info(f"📊 DTI Ratio: {round(dti, 3)}")
 
-        # Dataframe
         input_df = pd.DataFrame({
             "Applicant_Income":[income],
             "Coapplicant_Income":[co_income],
@@ -115,17 +107,14 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
             "Employer_Category":[employer_category]
         })
 
-        # Encode Education
         education_map = {"Graduate":0,"Postgraduate":1,"Undergraduate":2}
         input_df["Education_Level"] = input_df["Education_Level"].map(education_map)
 
         input_df = input_df.fillna(0)
 
-        # Feature engineering
         input_df["DTI_Ratio_sq"] = input_df["DTI_Ratio"] ** 2
         input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
 
-        # Encoding
         cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
 
         encoded = encoder.transform(input_df[cat_cols])
@@ -143,14 +132,11 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
         input_df = input_df.reindex(columns=columns, fill_value=0)
         input_df = input_df.astype(float)
 
-        # Scale
         input_scaled = scaler.transform(input_df)
 
-        # Predict
         prediction = model.predict(input_scaled)
         probability = model.predict_proba(input_scaled)
 
-        # Result
         if prediction[0] == 1:
             st.success(f"✅ Loan Approved (Confidence: {round(probability[0][1]*100,2)}%)")
         else:
@@ -176,4 +162,13 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
         st.error(f"⚠️ Error: {e}")
 
 # ---------- FOOTER ----------
-st.markdown(load_html("footer.html"), unsafe_allow_html=True)
+footer_html = load_html("footer.html")
+
+st.markdown(
+    f"""
+    <div>
+        {footer_html}
+    </div>
+    """,
+    unsafe_allow_html=True
+)
