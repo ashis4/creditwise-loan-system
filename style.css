@@ -32,7 +32,7 @@ header {
 
 .header p {
     margin: 0;
-
+    padding-left: 25px;
 }
 
 .header a {
