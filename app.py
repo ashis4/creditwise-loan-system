@@ -179,15 +179,15 @@ st.markdown("""
 <div style="
     background: linear-gradient(90deg, #1f2937, #111827);
     color: white;
-    padding: 15px 20px;
+    padding: 12px 18px;
     border-radius: 10px;
-    margin-top: 20px;
+    margin-top: 10px;
     font-family: 'Segoe UI', sans-serif;
 ">
 
-<div style="text-align:center; margin-bottom:10px;">
-    <h2 style="margin:0; font-size:24px;">💼 CreditWise</h2>
-    <p style="margin:4px 0 0; font-size:15px; color:#d1d5db;">
+<div style="text-align:center; margin-bottom:6px;">
+    <h2 style="margin:0; font-size:20px;">💼 CreditWise</h2>
+    <p style="margin:2px 0 0; font-size:13px; color:#d1d5db;">
         AI-Powered Loan Approval & Advisory System
     </p>
 </div>
@@ -196,37 +196,40 @@ st.markdown("""
     display:flex;
     justify-content:space-between;
     flex-wrap:wrap;
-    gap:15px;
-    font-size:15px;
-    margin-bottom:10px;
+    font-size:13px;
+    margin-bottom:6px;
 ">
 
-<div style="margin-left: 25%; color: white">
-    <b>Developer Credits :</b><br>
-    <span style="color:#d1d5db;">Developed by Ashish Gaikar<br>Built using Machine Learning with dataset <br> analysis in Jupyter Lab</span>
+<div style="margin-left: 20%;">
+    <b>Developer :</b><br>
+    <span style="color:#d1d5db;">
+        Ashish Gaikar<br>
+        ML + Jupyter Lab
+    </span>
 </div>
 
-<div style="margin-right: 25%; color:white">
-    <b>Dataset Source :</b>
-    <span style="color:#d1d5db;">Standardized <br>Loan Data(Synthesized)</span>
+<div style="margin-right: 20%;">
+    <b>Dataset :</b><br>
+    <span style="color:#d1d5db;">
+        Standardized Loan Data
+    </span>
 </div>
 
 </div>
 
-<div style="text-align:center; margin:8px 0;">
+<div style="text-align:center; margin:4px 0;">
     <a href="https://github.com/ashis4" target="_blank"
-       style="color:#60a5fa; text-decoration:none; font-size:13px;">
-        <img src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/github.png" width="20" height="20">
-         View on GitHub
+       style="color:#60a5fa; text-decoration:none; font-size:12px;">
+        <img src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/github.png" width="16" height="16">
+        GitHub
     </a>
 </div>
 
-<hr style="border:0.5px solid #374151; margin:8px 0;">
+<hr style="border:0.5px solid #374151; margin:4px 0;">
 
-<div style="text-align:center; font-size:13px; color:#6b7280;">
-    © 2026 CreditWise. All rights reserved.
+<div style="text-align:center; font-size:11px; color:#6b7280; margin:0;">
+    © 2026 CreditWise
 </div>
 
 </div>
 """, unsafe_allow_html=True)
-
