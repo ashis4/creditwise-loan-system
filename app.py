@@ -187,7 +187,7 @@ st.markdown("""
 
 <div style="text-align:center; margin-bottom:10px;">
     <h2 style="margin:0; font-size:24px;">💼 CreditWise</h2>
-    <p style="margin:4px 0 0; font-size:13px; color:#d1d5db;">
+    <p style="margin:4px 0 0; font-size:15px; color:#d1d5db;">
         AI-Powered Loan Approval & Advisory System
     </p>
 </div>
@@ -203,12 +203,12 @@ st.markdown("""
 
 <div style="margin-left: 25%; color: white">
     <b>Developer Credits</b><br>
-    <span style="color:#9ca3af;">Developed by Ashish Gaikar<br>Built using Machine Learning with dataset <br> analysis in Jupyter Lab</span>
+    <span style="color:white;">Developed by Ashish Gaikar<br>Built using Machine Learning with dataset <br> analysis in Jupyter Lab</span>
 </div>
 
 <div style="margin-right: 25%; color:white">
     <b>Dataset Source</b>
-    <span style="color:#9ca3af;">Standardized <br>Loan Data(Synthesized)</span>
+    <span style="color:white;">Standardized <br>Loan Data(Synthesized)</span>
 </div>
 
 </div>
