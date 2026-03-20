@@ -223,11 +223,11 @@ st.markdown("""
 <div style="text-align:center; margin:4px 0;">
     <a href="https://github.com/ashis4" target="_blank"
        style="color:#60a5fa; text-decoration:none; font-size:13px;">
-        <https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJGtP-Pq0P67Ptyv3tB7Zn2ZYPIT-lPGI7AA&s" width="25" height="25" style="vertical-align:middle;">
+        <img src="https://cdn-icons-png.freepik.com/512/5968/5968866.png" width="30" height="30" style="vertical-align:middle;">
     </a>
     <a href="https://github.com/ashis4" target="_blank"
        style="color:#60a5fa; text-decoration:none; font-size:13px;">
-        <img src="https://cdn-icons-png.freepik.com/512/5968/5968866.png" width="25" height="25" style="vertical-align:middle;">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLYglJ5cooESw4EEKVpBAtJQtGC4qYb9Os_Q&s" width="30" height="30" style="vertical-align:middle;">
     </a>
 </div>
 
