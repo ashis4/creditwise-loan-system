@@ -201,7 +201,7 @@ st.markdown("""
     margin-bottom:6px;
 ">
 
-<div style="margin-left: 25%; color: white">
+<div style="margin-left: 18%; color: white">
     <b>Developer Credits :</b><br>
     <span style="color:#d1d5db;">
         Developed by Ashish Gaikar<br>
@@ -210,7 +210,7 @@ st.markdown("""
     </span>
 </div>
 
-<div style="margin-right: 25%; color:white">
+<div style="margin-right: 18%; color:white">
     <b>Dataset Source :</b><br>
     <span style="color:#d1d5db;">
         Standardized<br>
