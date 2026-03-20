@@ -13,12 +13,11 @@ def load_css(file_name):
 
 load_css("style.css")
 
-# ---------- LOAD HTML ----------
+# ---------- LOAD HEADER ----------
 def load_html(file_name):
     with open(file_name, encoding="utf-8") as f:
         return f.read()
 
-# ---------- HEADER ----------
 st.markdown(load_html("header.html"), unsafe_allow_html=True)
 
 # spacing after header
@@ -185,6 +184,59 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
         except Exception as e:
             st.error(f"⚠️ Error: {e}")
 
-# ---------- FOOTER ----------
+# ---------- PREMIUM COMPACT FOOTER ----------
 st.markdown("---")
-st.markdown(load_html("footer.html"), unsafe_allow_html=True)
+
+st.markdown("""
+<div style="
+    background: linear-gradient(90deg, #1f2937, #111827);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-family: 'Segoe UI', sans-serif;
+">
+
+<div style="text-align:center; margin-bottom:10px;">
+    <h2 style="margin:0; font-size:24px;">💼 CreditWise</h2>
+    <p style="margin:4px 0 0; font-size:13px; color:#d1d5db;">
+        AI-Powered Loan Approval & Advisory System
+    </p>
+</div>
+
+<div style="
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:15px;
+    font-size:12px;
+">
+
+<div>
+    <b>Developer</b><br>
+    <span style="color:#9ca3af;">Ashish Gaikar<br>ML + Jupyter Lab</span>
+</div>
+
+<div>
+    <b>Dataset</b><br>
+    <span style="color:#9ca3af;">Loan Dataset<br>Processed</span>
+</div>
+
+<div>
+    <b>Connect</b><br>
+    <a href="https://github.com/ashis4" target="_blank"
+       style="color:#60a5fa; text-decoration:none;">
+        GitHub
+    </a>
+</div>
+
+</div>
+
+<hr style="border:0.5px solid #374151; margin:10px 0;">
+
+<div style="text-align:center; font-size:11px; color:#6b7280;">
+    © 2026 CreditWise. All rights reserved.
+</div>
+
+</div>
+""", unsafe_allow_html=True)
