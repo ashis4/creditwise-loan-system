@@ -23,7 +23,6 @@ income = st.number_input("Applicant Income", min_value=0.0)
 co_income = st.number_input("Coapplicant Income", value=0.0)
 loan_amount = st.number_input("Loan Amount", min_value=0.0)
 credit_score = st.number_input("Credit Score", min_value=0.0)
-dti = st.number_input("DTI Ratio", min_value=0.0)
 savings = st.number_input("Savings", value=0.0)
 
 education = st.selectbox("Education Level", ["Graduate", "Postgraduate", "Undergraduate"])
@@ -39,6 +38,16 @@ employer_category = st.selectbox("Employer Category", ["Private", "Government"])
 if st.button("Predict Loan Status"):
 
     try:
+        # 🔥 Calculate DTI automatically
+        total_income = income + co_income
+
+        if total_income == 0:
+            dti = 0
+        else:
+            dti = loan_amount / total_income
+
+        st.info(f"📊 Calculated DTI Ratio: {round(dti, 2)}")
+
         # Create dataframe
         input_df = pd.DataFrame({
             "Applicant_Income":[income],
@@ -56,7 +65,7 @@ if st.button("Predict Loan Status"):
             "Employer_Category":[employer_category]
         })
 
-        # 🔥 Convert Education manually (IMPORTANT FIX)
+        # Convert Education manually
         education_map = {
             "Graduate": 0,
             "Postgraduate": 1,
@@ -71,12 +80,11 @@ if st.button("Predict Loan Status"):
         input_df["DTI_Ratio_sq"] = input_df["DTI_Ratio"] ** 2
         input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
 
-        # Encode categorical variables (EXCLUDE Education_Level)
+        # Encode categorical variables
         cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
 
         encoded = encoder.transform(input_df[cat_cols])
 
-        # Convert sparse to array if needed
         try:
             encoded = encoded.toarray()
         except:
@@ -96,7 +104,7 @@ if st.button("Predict Loan Status"):
         # Ensure numeric
         input_df = input_df.astype(float)
 
-        # Scale data
+        # Scale
         input_scaled = scaler.transform(input_df)
 
         # Predict
