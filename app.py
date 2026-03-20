@@ -20,9 +20,6 @@ def load_html(file_name):
 
 st.markdown(load_html("header.html"), unsafe_allow_html=True)
 
-if st.button("About Us"):
-    st.switch_page("About_Us.py")
-
 # spacing after header
 st.markdown("<div style='margin-top:15px'></div>", unsafe_allow_html=True)
 
