@@ -85,9 +85,7 @@ body {
     visibility: hidden;
 }
 
-footer {
-    visibility: hidden;
-}
+
 /* ---------- FOOTER ---------- */
 .footer {
     background: linear-gradient(90deg, #1f2937, #111827);
