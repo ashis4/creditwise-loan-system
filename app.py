@@ -160,15 +160,3 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
-
-# ---------- FOOTER ----------
-footer_html = load_html("footer.html")
-
-st.markdown(
-    f"""
-    <div>
-        {footer_html}
-    </div>
-    """,
-    unsafe_allow_html=True
-)
