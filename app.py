@@ -188,7 +188,7 @@ st.markdown("""
 
 <div style="text-align:center; margin-bottom:8px;">
     <h2 style="margin:0; font-size:24px;">💼 CreditWise</h2>
-    <p style="margin:4px 0 0; font-size:15px; color:#d1d5db;">
+    <p style="margin:2px 0 0; font-size:15px; color:#d1d5db;">
         AI-Powered Loan Approval & Advisory System
     </p>
 </div>
