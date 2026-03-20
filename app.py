@@ -207,8 +207,8 @@ st.markdown("""
 </div>
 
 <div>
-    <b>Dataset Source</b><br>
-    <span style="color:#9ca3af;">Standardized Loan Data(Synthesized)<br>Processed</span>
+    <b>Dataset Source</b>
+    <span style="color:#9ca3af;">Standardized <br>Loan Data(Synthesized)</span>
 </div>
 
 </div>
