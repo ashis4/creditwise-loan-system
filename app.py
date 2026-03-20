@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 # ---------- PAGE CONFIG ----------
-st.set_page_config(page_title="CreditWise", layout="centered")
+st.set_page_config(page_title="CreditWise", layout="wide")
 
 # ---------- LOAD CSS ----------
 def load_css(file_name):
