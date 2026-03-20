@@ -230,8 +230,20 @@ st.markdown("""
 
 <hr style="border:0.5px solid #374151; margin:4px 0;">
 
-<div style="text-align:center; font-size:13px; color:#6b7280; margin:0;">
-    © 2026 CreditWise. All rights reserved.
+<div style="text-align:center; margin:4px 0;">
+
+    <a href="https://github.com/ashis4" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png"
+             width="22" height="22"
+             style="margin:0 8px; vertical-align:middle;">
+    </a>
+
+    <a href="https://www.linkedin.com/in/YOUR-LINKEDIN-ID" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+             width="22" height="22"
+             style="margin:0 8px; vertical-align:middle;">
+    </a>
+
 </div>
 
 </div>
