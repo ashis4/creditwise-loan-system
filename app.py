@@ -169,26 +169,39 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
         except Exception as e:
             st.error(f"⚠️ Error: {e}")
 
-# ---------- FOOTER ----------
+# ---------- PREMIUM FOOTER ----------
 st.markdown("---")
 
 st.markdown("""
-<div style='
+<div style="
     text-align: center;
-    color: gray;
-    font-size: 14px;
-    padding: 15px;
-    margin-top: 30px;
-'>
+    background: linear-gradient(90deg, #1f2937, #111827);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+">
 
-<b>Developed by Ashish Gaikar</b><br>
+<h3 style="margin-bottom:10px;">💼 CreditWise</h3>
 
-This project is developed for educational purposes using Machine Learning.<br>
-The dataset was analyzed and the model was trained using Jupyter Lab.<br><br>
+<p style="font-size:15px; color:#d1d5db;">
+AI-Powered Loan Approval & Advisory System
+</p>
 
-© 2026 CreditWise. All rights reserved.<br>
+<p style="font-size:14px; color:#9ca3af; margin-top:10px;">
+Developed by <b>Ashish Gaikar</b><br>
+Built using Machine Learning with dataset analysis in Jupyter Lab
+</p>
 
-<a href="https://github.com/ashis4" target="_blank" style="color:#1f77b4;">
+<hr style="border:0.5px solid #374151; margin:15px 0;">
+
+<p style="font-size:13px; color:#6b7280;">
+© 2026 CreditWise. All rights reserved.
+</p>
+
+<a href="https://github.com/ashis4" target="_blank"
+   style="color:#60a5fa; text-decoration:none; font-size:14px;">
 🔗 View on GitHub
 </a>
 
