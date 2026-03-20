@@ -83,10 +83,41 @@ input {
 footer {
     visibility: hidden;
 }
+/* ---------- FOOTER ---------- */
+
 .footer {
+    background-color: #111827;
+    padding: 20px 10px;
+    border-radius: 10px;
     text-align: center;
     margin-top: 30px;
-    padding: 10px;
-    color: gray;
+}
+
+.footer-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.footer-desc {
     font-size: 14px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+}
+
+.footer-copy {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.github-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.github-link:hover {
+    text-decoration: underline;
 }
