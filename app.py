@@ -38,15 +38,15 @@ employer_category = st.selectbox("Employer Category", ["Private", "Government"])
 if st.button("Predict Loan Status"):
 
     try:
-        # 🔥 Calculate DTI automatically
+        # 🔥 Improved DTI calculation (REALISTIC)
         total_income = income + co_income
 
         if total_income == 0:
             dti = 0
         else:
-            dti = loan_amount / total_income
+            dti = loan_amount / (total_income * 12)
 
-        st.info(f"📊 Calculated DTI Ratio: {round(dti, 2)}")
+        st.info(f"📊 Calculated DTI Ratio: {round(dti, 3)}")
 
         # Create dataframe
         input_df = pd.DataFrame({
