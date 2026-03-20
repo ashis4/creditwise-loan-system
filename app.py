@@ -173,6 +173,7 @@ if st.button("🔍 Predict Loan Status", use_container_width=True):
             st.error(f"⚠️ Error: {e}")
 
 # ---------- FIXED COMPACT FOOTER ----------
+st.markdown("---")
 st.markdown("""
 <div style="
     background: #111827;
@@ -231,3 +232,5 @@ st.markdown("""
 
 </div>
 """, unsafe_allow_html=True)
+
+
