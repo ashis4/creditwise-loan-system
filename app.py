@@ -3,28 +3,25 @@ import pickle
 import pandas as pd
 import numpy as np
 
-# Title
 st.set_page_config(page_title="CreditWise", layout="centered")
 st.title("🏦 CreditWise Loan Approval System")
 
 st.markdown("### Enter Applicant Details")
 
-# ---------- SAFE CONVERSION FUNCTION ----------
 def to_float(value):
     try:
         return float(value)
     except:
         return 0
 
-# ---------- INPUTS (TEXT INPUT - NO +/-) ----------
+# Inputs (clean)
+income = st.text_input("Applicant Income (Monthly)")
+co_income = st.text_input("Coapplicant Income")
+loan_amount = st.text_input("Loan Amount")
+loan_term = st.text_input("Loan Term (months)")
 
-income = st.text_input("Applicant Income (Monthly)", placeholder="e.g. 20000")
-co_income = st.text_input("Coapplicant Income", placeholder="e.g. 5000")
-loan_amount = st.text_input("Loan Amount", placeholder="e.g. 50000")
-loan_term = st.text_input("Loan Term (months)", placeholder="e.g. 60")
-
-credit_score = st.text_input("Credit Score", placeholder="e.g. 750")
-savings = st.text_input("Savings", placeholder="e.g. 10000")
+credit_score = st.text_input("Credit Score")
+savings = st.text_input("Savings")
 
 education = st.selectbox("Education Level", ["Graduate", "Postgraduate", "Undergraduate"])
 employment = st.selectbox("Employment Status", ["Salaried", "Self-Employed", "Business"])
@@ -34,7 +31,7 @@ property_area = st.selectbox("Property Area", ["Urban", "Semi-Urban", "Rural"])
 gender = st.selectbox("Gender", ["Male", "Female"])
 employer_category = st.selectbox("Employer Category", ["Private", "Government"])
 
-# Convert inputs
+# Convert
 income = to_float(income)
 co_income = to_float(co_income)
 loan_amount = to_float(loan_amount)
@@ -42,7 +39,7 @@ loan_term = to_float(loan_term)
 credit_score = to_float(credit_score)
 savings = to_float(savings)
 
-# ---------- LOAD MODEL ----------
+# Load model
 try:
     model = pickle.load(open('model.pkl', 'rb'))
     scaler = pickle.load(open('scaler.pkl', 'rb'))
@@ -51,23 +48,17 @@ try:
 except Exception as e:
     st.error(f"Error loading model files: {e}")
 
-# ---------- PREDICTION ----------
+# Predict
 if st.button("🔍 Predict Loan Status"):
 
     try:
-        # EMI Calculation
         emi = loan_amount / loan_term if loan_term != 0 else 0
-
-        # Total income
         total_income = income + co_income
-
-        # DTI Calculation
         dti = emi / total_income if total_income != 0 else 0
 
         st.info(f"📊 Monthly EMI: {round(emi, 2)}")
         st.info(f"📊 DTI Ratio: {round(dti, 3)}")
 
-        # Create dataframe
         input_df = pd.DataFrame({
             "Applicant_Income":[income],
             "Coapplicant_Income":[co_income],
@@ -84,21 +75,14 @@ if st.button("🔍 Predict Loan Status"):
             "Employer_Category":[employer_category]
         })
 
-        # Education encoding
-        education_map = {
-            "Graduate": 0,
-            "Postgraduate": 1,
-            "Undergraduate": 2
-        }
+        education_map = {"Graduate":0,"Postgraduate":1,"Undergraduate":2}
         input_df["Education_Level"] = input_df["Education_Level"].map(education_map)
 
         input_df = input_df.fillna(0)
 
-        # Feature engineering
         input_df["DTI_Ratio_sq"] = input_df["DTI_Ratio"] ** 2
         input_df["Credit_Score_sq"] = input_df["Credit_Score"] ** 2
 
-        # Encoding
         cat_cols = ["Employment_Status","Marital_Status","Loan_Purpose","Property_Area","Gender","Employer_Category"]
 
         encoded = encoder.transform(input_df[cat_cols])
@@ -107,23 +91,17 @@ if st.button("🔍 Predict Loan Status"):
         except:
             pass
 
-        encoded_df = pd.DataFrame(
-            encoded,
-            columns=encoder.get_feature_names_out(cat_cols)
-        )
+        encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(cat_cols))
 
         input_df = pd.concat([input_df.drop(columns=cat_cols), encoded_df], axis=1)
         input_df = input_df.reindex(columns=columns, fill_value=0)
         input_df = input_df.astype(float)
 
-        # Scale
         input_scaled = scaler.transform(input_df)
 
-        # Predict
         prediction = model.predict(input_scaled)
         probability = model.predict_proba(input_scaled)
 
-        # Output
         if prediction[0] == 1:
             st.success(f"✅ Loan Approved (Confidence: {round(probability[0][1]*100,2)}%)")
         else:
